@@ -1,10 +1,11 @@
 import * as dao from "./dao.js";
-let currentUser = null;
+// let currentUser = null;
 export default function UserRoutes(app) {
   const createUser = async (req, res) => {
     const user = await dao.createUser(req.body);
     res.json(user);
    };
+   app.post("/api/users", createUser);
   const deleteUser = async (req, res) => {
     const status = await dao.deleteUser(req.params.userId);
     res.json(status);
@@ -31,13 +32,13 @@ export default function UserRoutes(app) {
     res.json(status);
    };
   const signup = async (req, res) => {
-    const user = await dao.findUserByUsername(
-        req.body.username);
-      if (user) {
+    const user = await dao.findUserByUsername(req.body.username);
+    if (user) {
         res.status(400).json(
           { message: "Username already taken" });
       }
-      currentUser = await dao.createUser(req.body);
+      const currentUser = await dao.createUser(req.body);
+      req.session["currentUser"] = currentUser;
       res.json(currentUser);  
    };
    const register = (req, res) => {
@@ -64,22 +65,26 @@ export default function UserRoutes(app) {
   }; 
   const signin = async (req, res) => { 
     const { username, password } = req.body;
-    currentUser = await dao.findUserByCredentials(username, password);
-    if (!currentUser) {
-        res.status(400).json({ message: "Invalid credentials" });
-        return;
+    const currentUser = await dao.findUserByCredentials(username, password);
+    if (currentUser) {
+        // res.status(400).json({ message: "Invalid credentials" });
+        // return;
+        req.session["currentUser"] = currentUser;
+        res.json(currentUser);
+      } else {
+        res.sendStatus(401);
       }
-    req.session["currentUser"] = user;  
-    res.json(currentUser);
+    
 };
   const signout = (req, res) => {
-    currentUser = null;
-    res.json(200);
+    // currentUser = null;
+    req.session.destroy();
+    res.sendStatus(200);
    };
   const profile = async (req, res) => { 
-    const currentUser = req.session["currentUser"];
+  const currentUser = req.session["currentUser"];
    if (!currentUser) {
-     res.sendStatus(404);
+    res.sendStatus(401);
      return;
    }
     res.json(currentUser);
@@ -88,7 +93,7 @@ export default function UserRoutes(app) {
     req.session.destroy();
     res.sendStatus(200);
   }; 
-  app.post("/api/users", createUser);
+  
   app.get("/api/users", findAllUsers);
   app.get("/api/users/:userId", findUserById);
   app.put("/api/users/:userId", updateUser);

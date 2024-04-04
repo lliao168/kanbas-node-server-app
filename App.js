@@ -8,14 +8,15 @@ import cors from "cors";
 import CourseRoutes from "./Kanbas/courses/routes.js";
 import ModuleRoutes from "./Kanbas/modules/routes.js";
 import AssignmentRoutes from "./Kanbas/assignments/routes.js";
-mongoose.connect("mongodb://127.0.0.1:27017/kanbas");
+mongoose.connect("mongodb://localhost:27017/kanbas");
 import "dotenv/config";
 import session from "express-session";
 const app = express();
 app.use(
     cors({
         credentials: true,
-        origin: process.env.FRONTEND_URL
+        origin: [process.env.FRONTEND_URL, "http://localhost:3000"],
+        // origin: "http://localhost:3000",
       })
 );
 const sessionOptions = {
@@ -34,6 +35,7 @@ const sessionOptions = {
     session(sessionOptions)
   );  
 app.use(express.json());
+const port = process.env.PORT || 4000;
 UserRoutes(app);
 CourseRoutes(app);
 ModuleRoutes(app);
