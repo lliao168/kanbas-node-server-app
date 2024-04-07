@@ -140,6 +140,16 @@ const Lab5 = (app) => {
       const sum = parseInt(a) - parseInt(b);
       res.send(sum.toString());
     });
+    app.get("/a5/multiply/:a/:b", (req, res) => {
+      const { a, b } = req.params;
+      const product = parseInt(a) * parseInt(b);
+      res.send(product.toString());
+    });
+    app.get("/a5/divide/:a/:b", (req, res) => {
+      const { a, b } = req.params;
+      const quotient = parseInt(a) / parseInt(b);
+      res.send(quotient.toString());
+    });
     app.get("/a5/calculator", (req, res) => {
         const { a, b, operation } = req.query;
         let result = 0;
@@ -150,6 +160,12 @@ const Lab5 = (app) => {
           case "subtract":
             result = parseInt(a) - parseInt(b);
             break;
+          case "multiply":
+              result = parseInt(a) * parseInt(b);
+              break;
+          case "divide":
+              result = parseInt(a) / parseInt(b);
+              break;    
           default:
             result = "Invalid operation";
         }
