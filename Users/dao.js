@@ -1,6 +1,9 @@
 import model from "./model.js";
+import { v4 as uuidv4 } from 'uuid';
+
 export const createUser = (user) => {
-    delete user._id
+    delete user._id;
+    user._id = uuidv4();
     return model.create(user);
   } 
 export const findAllUsers = () => model.find();

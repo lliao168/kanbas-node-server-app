@@ -22,10 +22,11 @@ app.use(
       })
 );
 const sessionOptions = {
-    secret: "any string",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   };
+  console.log("Session Secret:", process.env.SESSION_SECRET);
   if (process.env.NODE_ENV !== "development") {
     sessionOptions.proxy = true;
     sessionOptions.cookie = {
