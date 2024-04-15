@@ -8,7 +8,7 @@ import CourseRoutes from "./Kanbas/courses/routes.js";
 import ModuleRoutes from "./Kanbas/modules/routes.js";
 import AssignmentRoutes from "./Kanbas/assignments/routes.js";
 const DB_CONNECTION_STRING="mongodb+srv://lliao26:2358901Bingo@cluster0.vekd8xb.mongodb.net/kanbas?retryWrites=true&w=majority&appName=Cluster0";
-const CONNECTION_STRING = DB_CONNECTION_STRING || "mongodb://localhost:27017/kanbas"
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/kanbas"
 mongoose.connect(CONNECTION_STRING);
 import UserRoutes from "./Users/routes.js";
 import "dotenv/config";
@@ -32,6 +32,7 @@ const sessionOptions = {
     sessionOptions.cookie = {
       sameSite: "none",
       secure: true,
+      domain: process.env.HTTP_SERVER_DOMAIN,
     };
   }  
   app.use(
