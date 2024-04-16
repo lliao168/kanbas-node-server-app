@@ -1,4 +1,3 @@
-import db from "../Database/index.js";
 import * as dao from "./dao.js";
 
 function AssignmentRoutes(app) {
@@ -16,12 +15,6 @@ function AssignmentRoutes(app) {
 
   const findAssignmentsForCourse = async (req, res) => {
     const { courseId } = req.params;
-    const { category } = req.query;
-    if (category) {
-      const assignments = await dao.findAssignmentsForCourse(courseId).find(category);
-      res.json(assignments);
-      return;
-    }
     const assignments = await dao.findAssignmentsForCourse(courseId);
     res.json(assignments);
     return;

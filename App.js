@@ -32,7 +32,6 @@ const sessionOptions = {
     sessionOptions.cookie = {
       sameSite: "none",
       secure: true,
-      domain: process.env.HTTP_SERVER_DOMAIN,
     };
   }  
   app.use(
