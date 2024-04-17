@@ -13,6 +13,7 @@ mongoose.connect(CONNECTION_STRING);
 import UserRoutes from "./Users/routes.js";
 import "dotenv/config";
 import session from "express-session";
+import QuizRoutes from "./Kanbas/quizzes/routes.js";
 const app = express();
 app.use(
     cors({
@@ -43,6 +44,7 @@ UserRoutes(app);
 CourseRoutes(app);
 ModuleRoutes(app);
 AssignmentRoutes(app);
+QuizRoutes(app);
 Hello(app);
 Lab5(app);
 
