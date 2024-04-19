@@ -14,6 +14,7 @@ import UserRoutes from "./Users/routes.js";
 import "dotenv/config";
 import session from "express-session";
 import QuizRoutes from "./Kanbas/quizzes/routes.js";
+import QuizQuestionRoutes from "./Kanbas/quizQuestions/routes.js";
 const app = express();
 app.use(
     cors({
@@ -45,6 +46,7 @@ CourseRoutes(app);
 ModuleRoutes(app);
 AssignmentRoutes(app);
 QuizRoutes(app);
+QuizQuestionRoutes(app)
 Hello(app);
 Lab5(app);
 
